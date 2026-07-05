@@ -58,4 +58,4 @@ this policy will be updated first and the update noted above.
 
 ## Contact
 
-Questions about this policy: yerassyl88@gmail.com
+Questions about this policy: yerassylmyn@gmail.com
