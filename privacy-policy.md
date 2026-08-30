@@ -1,13 +1,13 @@
 ---
-title: Miso Privacy Policy
+title: "Qasaqana:Miso Privacy Policy"
 ---
 
-# Privacy Policy for Miso
+# Privacy Policy for Qasaqana:Miso
 
 **Last updated: July 5, 2026**
 
-Miso ("the app") is a personal expense-tracking app. This policy explains what
-happens to your data when you use it.
+Qasaqana is building Miso ("the app"), a personal expense-tracking app. This
+policy explains what happens to your data when you use it.
 
 ## Summary
 
@@ -58,4 +58,4 @@ this policy will be updated first and the update noted above.
 
 ## Contact
 
-Questions about this policy: yerassylmyn@gmail.com
+Questions about this policy: hey@qasaqana.com

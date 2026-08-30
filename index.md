@@ -1,9 +1,9 @@
 ---
-title: Miso
+title: "Qasaqana:Miso"
 ---
 
-# Miso
+# Qasaqana:Miso
 
-Personal expense tracker. Local-only, no accounts, no tracking.
+Qasaqana is building Miso — a personal expense tracker.
 
 - [Privacy Policy](privacy-policy.md)
