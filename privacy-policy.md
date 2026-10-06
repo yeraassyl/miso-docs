@@ -29,13 +29,13 @@ Two other things also leave your phone. Each has its own section below:
   carries the result.
 
 If you never import a statement, Miso sends no financial data anywhere. Its
-only other network traffic is the Google device check and, when you buy credits,
-Google Play.
+only other network traffic is the Google device check and, when you buy
+credits, Google Play and our server's purchase check.
 
 ## What stays on your device
 
 All of this is stored only on your phone, in a local database, and is never
-transmitted:
+sent to us:
 
 - Transaction amounts, dates, merchants, and notes
 - Category names, icons, and colors
@@ -44,7 +44,8 @@ transmitted:
 - App settings (currency, language, theme)
 - Your import credit balance
 
-Uninstalling the app deletes all of it permanently. There is no cloud copy.
+Uninstalling the app deletes all of it from your phone. We keep no copy of it
+anywhere; your phone's own backup may include it (see Backups).
 
 ## Importing a bank statement
 
@@ -89,8 +90,8 @@ Germany (europe-west3).
   not merchants, not amounts. We use the logs for security and to fix errors.
   They are deleted automatically after 30 days.
 
-Once your phone has collected the result, our server no longer holds the
-statement; NuMind's copies follow the timeline in Step 2.
+After your phone collects the result, our server keeps it only until the
+one-hour mark above. NuMind's copies follow the timeline in Step 2.
 
 ### Step 2 — NuMind
 
