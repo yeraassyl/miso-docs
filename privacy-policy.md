@@ -4,7 +4,7 @@ title: "Qasaqana:Miso Privacy Policy"
 
 # Privacy Policy for Qasaqana:Miso
 
-**Last updated: September 17, 2026**
+**Last updated: October 6, 2026**
 
 Qasaqana is building Miso ("the app"), a personal expense-tracking app. This
 policy explains what happens to your data when you use it.
@@ -18,6 +18,13 @@ There is **one exception**, and it is the important part of this policy:
 **when you import a bank statement, that PDF leaves your device.** It is sent
 to our server, and from there to NuMind, the company whose extraction model
 reads it. What happens to it at each step is set out below.
+
+Two other things also leave your phone. Each has its own section below:
+
+- **Buying credits:** payment runs through Google Play. The app sends our
+  server only which credit pack you bought and a Google Play receipt code.
+- **App and device check:** before each request to our server, the app asks
+  Google to confirm it is the genuine Miso app on a genuine Android device.
 
 If you never import a statement, Miso never sends anything anywhere.
 
@@ -63,9 +70,17 @@ Germany (europe-west3).
   memory only (a temporary filesystem that exists solely while the server
   instance is running), is deleted **one hour** after the job finishes, and
   disappears entirely whenever the instance restarts.
-- **Our logs record no financial information.** They contain a random job
-  identifier, the size of the upload in bytes, its page count, and error codes.
-  Not the file name, not merchants, not amounts.
+- **Our logs record no financial information.** Google Cloud keeps request
+  logs: a line for every request to the server, not only imports. Each line
+  holds the time, your IP address, the user-agent string (which names the app's
+  HTTP library and its version), the path requested, and the response status,
+  size and duration. Our server also writes its own log lines: a random job
+  identifier, counts (bytes, pages and transactions), the outcome of the app and
+  device check, and error codes. On a purchase verification error, those lines
+  also hold an 8-character fingerprint of the token (see Buying credits). No
+  statement contents and no transaction details are logged: not the file name,
+  not merchants, not amounts. We use the logs for security and to fix errors.
+  They are deleted automatically after 30 days.
 
 Once your phone has collected the result, the statement exists only on your
 phone again.
@@ -110,6 +125,44 @@ NuMind's systems. If you are not comfortable with that, do not use statement
 import — every other feature of Miso works entirely offline, and you can add
 transactions by hand.
 
+## Buying credits
+
+You can buy import credits through Google Play. The payment runs entirely
+through Google Play, and Google processes it under
+[Google's own privacy policy](https://policies.google.com/privacy). Miso never
+sees your card or bank details.
+
+After a purchase, the app sends our server exactly two things about it:
+
+- The product ID, which says which credit pack you bought
+- The Google Play purchase token, an opaque receipt code
+
+Our server asks Google's Play Developer API whether the purchase is real, paid
+and not already used. It then replies with the number of credits.
+
+- **Our server stores nothing about the purchase.** The only trace is in the
+  logs described under Step 1, where the request has a line like any other. On a
+  verification error, the server's own log lines keep only an 8-character
+  fingerprint (a hash) of the token, never the token itself.
+- **Your credit balance is kept only on your phone,** in the app's local
+  database, the same place as your transactions.
+
+## App and device check
+
+Before each request to our server, the app asks Google to confirm two things:
+that it is the genuine Miso app as distributed by Google Play, and that it is
+running on a genuine Android device. It does this through Firebase App Check and
+Google Play Integrity, which are both Google services.
+
+- **Google makes the assessment** from information on your device and in Google
+  Play, under
+  [Google's own privacy policy](https://policies.google.com/privacy).
+- **From the check, our server receives only a short-lived signed token**
+  saying whether it passed. It verifies the token and does not store it.
+- **Our logs record only the outcome of the check** (valid, missing or invalid)
+  and which API path was called.
+- **Requests that fail the check are refused.**
+
 ## What Miso does not do
 
 - Does not require an account or sign-in
@@ -130,6 +183,11 @@ without you having to ask. For NuMind's copy, the deletion windows above apply.
 If you want a specific import deleted sooner than that, write to us at the
 address below and we will pass the request on, though we cannot guarantee a
 third party's timing.
+
+Purchase verification and the app and device check leave nothing stored on our
+side, apart from the log lines described under Step 1. Request logs have a line
+for every request to our server, imports included, and are deleted
+automatically after 30 days.
 
 ## Backups
 
