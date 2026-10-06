@@ -12,21 +12,25 @@ policy explains what happens to your data when you use it.
 ## Summary
 
 Almost everything you do in Miso stays on your phone. Miso has no account
-system, no analytics, no advertising, and no payment processor.
+system, no analytics, and no advertising. Miso takes no payments itself;
+credits are bought through Google Play.
 
-There is **one exception**, and it is the important part of this policy:
-**when you import a bank statement, that PDF leaves your device.** It is sent
-to our server, and from there to NuMind, the company whose extraction model
-reads it. What happens to it at each step is set out below.
+The important part of this policy: **when you import a bank statement, that PDF
+leaves your device.** It is sent to our server, and from there to NuMind, the
+company whose extraction model reads it. What happens to it at each step is set
+out below.
 
 Two other things also leave your phone. Each has its own section below:
 
 - **Buying credits:** payment runs through Google Play. The app sends our
   server only which credit pack you bought and a Google Play receipt code.
-- **App and device check:** before each request to our server, the app asks
-  Google to confirm it is the genuine Miso app on a genuine Android device.
+- **App and device check:** when it starts, the app asks Google to confirm it is
+  the genuine Miso app on a genuine Android device. Each request to our server
+  carries the result.
 
-If you never import a statement, Miso never sends anything anywhere.
+If you never import a statement, Miso sends no financial data anywhere. Its
+only other network traffic is the Google device check and, when you buy credits,
+Google Play.
 
 ## What stays on your device
 
@@ -44,8 +48,8 @@ Uninstalling the app deletes all of it permanently. There is no cloud copy.
 
 ## Importing a bank statement
 
-This is the only feature that sends data off your device. It runs only when
-you choose a PDF and tap Upload.
+This is the only feature that sends bank data off your device. It runs only
+when you choose a PDF and tap Upload.
 
 ### What is sent
 
@@ -53,10 +57,13 @@ you choose a PDF and tap Upload.
 - The file name you picked it under
 - Your display currency and app language
 
-That is the whole list. Miso does **not** send your category names, your
-existing transactions, your notes, a device identifier, an advertising ID, an
-account, or a location. Miso has no way to identify you: there is no sign-in,
-and uploads are not tied to any user record.
+That is the whole list. Like every request, the upload also carries the
+device-check token and is logged as described below. Miso does **not** send
+your category names, your existing transactions, your notes, a device
+identifier, an advertising ID, an account, or a location. There is no sign-in,
+and uploads are not tied to any user record. The only thing that could link a
+request to you is the IP address in the request logs, which are deleted after
+30 days.
 
 ### Step 1 — our server
 
@@ -82,8 +89,8 @@ Germany (europe-west3).
   not merchants, not amounts. We use the logs for security and to fix errors.
   They are deleted automatically after 30 days.
 
-Once your phone has collected the result, the statement exists only on your
-phone again.
+Once your phone has collected the result, our server no longer holds the
+statement; NuMind's copies follow the timeline in Step 2.
 
 ### Step 2 — NuMind
 
@@ -149,16 +156,19 @@ and not already used. It then replies with the number of credits.
 
 ## App and device check
 
-Before each request to our server, the app asks Google to confirm two things:
-that it is the genuine Miso app as distributed by Google Play, and that it is
-running on a genuine Android device. It does this through Firebase App Check and
-Google Play Integrity, which are both Google services.
+When it starts, the app asks Google to confirm two things: that it is the
+genuine Miso app as distributed by Google Play, and that it is running on a
+genuine Android device. Google's answer comes back as a check token, which the
+app refreshes periodically. This uses Firebase App Check and Google Play
+Integrity, which are both Google services.
 
 - **Google makes the assessment** from information on your device and in Google
   Play, under
   [Google's own privacy policy](https://policies.google.com/privacy).
-- **From the check, our server receives only a short-lived signed token**
-  saying whether it passed. It verifies the token and does not store it.
+- **Each request to our server carries the current token.** From the check, our
+  server receives only that short-lived signed token, which says whether the
+  check passed. Our server verifies the token and does not store it. The token
+  carries the app's ID, not a device identifier.
 - **Our logs record only the outcome of the check** (valid, missing or invalid)
   and which API path was called.
 - **Requests that fail the check are refused.**
@@ -167,22 +177,23 @@ Google Play Integrity, which are both Google services.
 
 - Does not require an account or sign-in
 - Does not use analytics, crash reporting, or advertising
-- Does not contain a payment processor; import credits are a counter stored on
-  your phone
+- Does not process payments itself: credits are bought through Google Play, and
+  the balance is a counter stored on your phone
 - Does not request access to contacts, location, camera, microphone, or any
-  other device permission beyond network access for statement import
-- Does not sell or share your data with anyone other than the processing step
-  described above
+  other device permission beyond network access and Google Play billing
+- Does not sell your data, and shares it only with the services this policy
+  names: NuMind to read statements, Google Cloud to host our server, and Google
+  Play and Firebase for purchases and the device check
 
 ## Data deletion
 
 Everything on your device is deleted when you uninstall the app.
 
-For the server side: our copy is gone within an hour of the import finishing,
-without you having to ask. For NuMind's copy, the deletion windows above apply.
-If you want a specific import deleted sooner than that, write to us at the
-address below and we will pass the request on, though we cannot guarantee a
-third party's timing.
+For the server side: our copy of the statement is gone within an hour of the
+import finishing, without you having to ask. For NuMind's copy, the deletion
+windows above apply. If you want a specific import deleted sooner than that,
+write to us at the address below and we will pass the request on, though we
+cannot guarantee a third party's timing.
 
 Purchase verification and the app and device check leave nothing stored on our
 side, apart from the log lines described under Step 1. Request logs have a line
